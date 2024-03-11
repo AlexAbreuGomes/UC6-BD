@@ -89,8 +89,3 @@ create table localizacao(
 create table comentar_postagem(
 	id_comentar int
 );
-
-create table teste(
-	id_teste int, 
-	teste nchar(11)
-);
