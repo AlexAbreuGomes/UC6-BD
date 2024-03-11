@@ -91,5 +91,6 @@ create table comentar_postagem(
 );
 
 create table teste(
-	id_teste int 
+	id_teste int, 
+	teste nchar(11)
 );
