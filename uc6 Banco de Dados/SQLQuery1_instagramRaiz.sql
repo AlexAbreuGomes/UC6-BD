@@ -1,10 +1,10 @@
 -- Criando um banco de dados
 create database instagram;
+
 -- Usando o banco de dados criado
 use instagram;
+
 -- Criando uma tabela no instagram
-
-
 create table usuario(
 	id_usuario nvarchar (30) primary key,
 	--foto_usuario varbinary,
@@ -142,6 +142,9 @@ create table comentar_postagem(
 	foreign key (id_comentario) references comentario(id_comentario),
 	foreign key (id_postagem) references postagem(id_postagem)
 );
+
+
+--Esta instrução insere novos registros na tabela especificada.
 
 insert into usuario(
 	id_usuario,      --nvarchar (30) primary key,
@@ -333,7 +336,7 @@ values
 	(10,1,123),
 	(20,2,423);
 
-
+-- Esta consulta retorna todas as colunas de todas as linhas da tabela especificada.
 select * from direct_msg;
 select * from usuario;
 select * from story;
