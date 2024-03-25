@@ -165,8 +165,8 @@ insert into direct_msg(
 )
 
 values 
-	(1,N'ola','2024-05-05 01:05:00',1,1,0),
-	(2,N'tchau','2024-05-06 12:02:00',0,1,1);
+	(1,N'ola','2024-05-05T01:05:00',1,1,0),
+	(2,N'tchau','2024-05-06T12:02:00',0,1,1);
 
  insert into story(
 	id_story,   --int primary key,
@@ -177,6 +177,7 @@ values
  values 
 	 (1,0,1),
 	 (2,1,1);
+
 insert into comentario(
 	id_comentario, --int primary key,
 	data_comentario, --date,
