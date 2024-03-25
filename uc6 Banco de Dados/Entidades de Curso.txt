@@ -1,0 +1,95 @@
+Entidades de Curso:
+
+Curso:
+
+ID_Curso (PK): Inteiro auto-incrementado
+Nome: String (255 caracteres)
+Descricao: Texto
+CargaHoraria: Inteiro
+DataInicio: Data
+DataFim: Data
+TipoCurso: String (50 caracteres)
+
+CursoTec:
+
+ID_CursoTec (PK): Inteiro auto-incrementado
+ID_Curso (FK): Inteiro, referencia a ID_Curso em Curso
+AreaTecnica: String (50 caracteres)
+Ementa: Texto
+
+CursoLivre:
+
+ID_CursoLivre (PK): Inteiro auto-incrementado
+ID_Curso (FK): Inteiro, referencia a ID_Curso em Curso
+PublicoAlvo: String (50 caracteres)
+MaterialDidatico: String (255 caracteres)
+
+CursoIdioma:
+
+ID_CursoIdioma (PK): Inteiro auto-incrementado
+ID_Curso (FK): Inteiro, referencia a ID_Curso em Curso
+Idioma: String (50 caracteres)
+NivelProficiencia: String (50 caracteres)
+Entidades de Aluno:
+
+Aluno:
+
+ID_Aluno (PK): Inteiro auto-incrementado
+Nome: String (255 caracteres)
+CPF: String (11 caracteres), único
+DataNascimento: Data
+Endereço: String (255 caracteres)
+Telefone: String (20 caracteres)
+Email: String (255 caracteres), único
+
+AlunoPagante:
+
+ID_AlunoPagante (PK): Inteiro auto-incrementado
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+TipoPagamento: String (50 caracteres)
+
+AlunoPSG:
+
+ID_AlunoPSG (PK): Inteiro auto-incrementado
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+NumeroConvenio: String (20 caracteres)
+
+AlunoBolsista:
+
+ID_AlunoBolsista (PK): Inteiro auto-incrementado
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+BolsaAuxilio: String (3 caracteres)
+CursoBolsa: String (255 caracteres),
+ nullable
+
+AlunoIdioma:
+
+ID_AlunoIdioma (PK): Inteiro auto-incrementado
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+Idioma: String (50 caracteres)
+NivelProficiencia: String (50 caracteres)
+Entidades Associativas:
+
+Aluno_Curso:
+
+ID_Aluno_Curso (PK): Inteiro auto-incrementado
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+ID_Curso (FK): Inteiro, referencia a ID_Curso em Curso
+DataMatricula: Data
+Situacao: String (20 caracteres)
+
+Contrato_Aluno:
+
+ID_Contrato_Aluno (PK): Inteiro auto-incrementado
+ID_Contrato (FK): Inteiro, referencia a ID_Contrato em Contrato
+ID_Aluno (FK): Inteiro, referencia a ID_Aluno em Aluno
+ValorBolsa: Decimal (10,2)
+CursoBolsa: String (255 caracteres), nullable
+Contrato_Funcionario:
+
+ID_Contrato_Funcionario (PK): Inteiro auto-incrementado
+ID_Contrato (FK): Inteiro, referencia a ID_Contrato em Contrato
+ID_Funcionario (FK): Inteiro, referencia a ID_Funcionario em Funcionario
+Cargo: String (50 caracteres)
+Salario: Decimal (10,2)
+DataAdmissao: Data
