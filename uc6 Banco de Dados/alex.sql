@@ -3,7 +3,7 @@ create database senac
 use senac
 
 create table endereco(
-	id_endereco int primary key,				-- int auto-incrementado (chave primária)
+	id_endereco int primary key IDENTITY(1,1),				-- int auto-incrementado (chave primária)
 	logradouro nvarchar(255) NOT NULL,			-- nome da rua, avenida, etc.
 	numero nvarchar(10) NOT NULL,				-- número do endereço
 	complemento nvarchar(100) NULL,				-- complemento do endereço (apartamento, bloco, etc.)
@@ -230,4 +230,112 @@ create table curso_frances(
 	id_idioma int NOT NULL,
 	foreign key (id_idioma) references idioma(id_idioma)
 );
+
+-- Inserindo 10 endereços de Natal
+INSERT INTO endereco (id_endereco, logradouro, numero, complemento, bairro, cidade, uf, cep) VALUES
+(1, 'Rua dos Girassóis', '123', 'Apto. 301', 'Centro', 'Natal', 'RN', '59010000'),
+(2, 'Avenida das Palmeiras', '456', 'Casa', 'Pontal', 'Parnamirim', 'RN', '59140000'),
+(3, 'Rua da Praia', '789', 'Bloco B', 'Areia Preta', 'Natal', 'RN', '59015000'),
+(4, 'Travessa do Sol', '20', 'Fundos', 'Rocas', 'Natal', 'RN', '59016000'),
+(5, 'Beco da Esperança', '11', 'Qd. 02', 'Mãe Luíza', 'Parnamirim', 'RN', '59141000'),
+(6, 'Alameda dos Ipês', '543', 'Casa A', 'Nova Parnamirim', 'Parnamirim', 'RN', '59142000'),
+(7, 'Rua das Flores', '100', 'Loja 1', 'Cidade Alta', 'Natal', 'RN', '59017000'),
+(8, 'Avenida João da Silva', '2222', 'Cj. 10', 'Lagoa Nova', 'Natal', 'RN', '59018000'),
+(9, 'Rua José de Alencar', '333', 'Sobrado', 'Petrópolis', 'Natal', 'RN', '59019000'),
+(10, 'Estrada da Redinha', '4444', 'Sítio Boa Vista', 'Redinha', 'Natal', 'RN', '59020000');
+
+select * from endereco
+
+INSERT INTO instituicao (id_instituicao,nome, cnpj, id_endereco, telefone, email) VALUES
+(1,'SENAC Natal', '00000000000100', 1, '(84) 40028000', 'natal@rn.senac.br'),
+(2,'SENAC Parnamirim', '00000000000200', 2, '(84) 32722200', 'parnamirim@rn.senac.br'),
+(3,'SENAC Mossoró', '00000000000300', 3, '(84) 33141400', 'mossoro@rn.senac.br');
+
+select * from instituicao;
+
+INSERT INTO contrato(id_contrato, data_contrato, tipo_contrato, status_contrato, id_instituicao) VALUES 
+(1,'2024-05-02','CLT', 'ATIVO', 1),
+(2,'2024-06-02','CLT', 'inativo', 1),
+(3,'2024-07-02','aluno psg', 'ATIVO', 2),
+(4,'2024-08-02','aluno idiomas', 'ATIVO', 3),
+(5,'2024-09-02','aprendiz', 'ATIVO', 3);
+INSERT INTO contrato(id_contrato,data_contrato, tipo_contrato, status_contrato, id_instituicao) VALUES 
+(6, '2024-10-02', 'pagante', 'ATIVO',1);
+
+UPDATE contrato
+SET tipo_contrato = 'aluno comercial'
+WHERE tipo_contrato = 'aluno idiomas';
+
+DELETE FROM contrato
+WHERE id_contrato = 6;
+
+select * from contrato;
+
+
+INSERT INTO funcionario (id_funcionario, nome, cpf, data_nascimento, cargo, salario, data_admissao, id_endereco, id_contrato) VALUES
+    (1, 'João Silva', '12345678901', '1990-05-15', 'Instrutor', 5000.00, '2022-01-10', 1, 1),
+    (2, 'Maria Oliveira', '98765432101', '1985-08-20', 'Instrutor', 5200.00, '2021-11-15', 2, 2),
+    (3, 'Pedro Santos', '45678912301', '1992-03-30', 'Instrutor', 4800.00, '2021-12-01', 3, 3),
+    (4, 'Ana Souza', '78912345601', '1988-11-05', 'Instrutor', 5100.00, '2022-02-20', 4, 1),
+    (5, 'Carlos Lima', '65432198701', '1995-07-10', 'Instrutor', 4900.00, '2022-03-05', 5, 1),
+    (6, 'José Pereira', '12398745601', '1980-12-25', 'Porteiro', 3000.00, '2022-04-01', 6, 1),
+    (7, 'Sandra Oliveira', '98745612301', '1987-09-18', 'Secretário', 3500.00, '2022-05-10', 7, 1),
+    (8, 'Fernanda Costa', '78965412301', '1983-04-08', 'Coordenador', 6000.00, '2022-06-15', 8, 1);
+
+UPDATE funcionario
+SET id_contrato = 2
+WHERE id_contrato = 3;
+
+select * from funcionario;
+
+
+INSERT INTO contrato_funcionario (id_contrato_funcionario, id_contrato, id_funcionario, cargo, salario, data_admissao) VALUES
+    (1, 1, 1, 'Instrutor', 5000.00, '2022-01-10'),
+    (2, 2, 2, 'Instrutor', 5200.00, '2021-11-15'),
+    (3, 3, 3, 'Instrutor', 4800.00, '2021-12-01'),
+    (4, 1, 4, 'Instrutor', 5100.00, '2022-02-20'),
+    (5, 1, 5, 'Instrutor', 4900.00, '2022-03-05'),
+    (6, 1, 6, 'Porteiro', 3000.00, '2022-04-01'),
+    (7, 1, 7, 'Secretário', 3500.00, '2022-05-10'),
+    (8, 1, 8, 'Coordenador', 6000.00, '2022-06-15');
+
+UPDATE contrato_funcionario
+SET id_contrato = 2
+WHERE id_contrato = 3;
+
+select * from contrato_funcionario;
+
+-- Inserir alunos com contrato de aluno PSG 
+INSERT INTO aluno (id_aluno, nome, cpf, data_nascimento, telefone, genero, email, id_endereco, id_contrato) VALUES
+    (1, 'Maria Silva', '12345678901', '2000-01-10', '123456789', 'F', 'maria.silva@example.com', 1, 3),
+    (2, 'João Oliveira', '23456789012', '2001-02-15', '234567890', 'M', 'joao.oliveira@example.com', 2, 3),
+    (3, 'Ana Santos', '34567890123', '2002-03-20', '345678901', 'F', 'ana.santos@example.com', 3, 3),
+    (4, 'Carlos Lima', '45678901234', '2003-04-25', '456789012', 'M', 'carlos.lima@example.com', 4, 3),
+    (5, 'Julia Pereira', '56789012345', '2004-05-30', '567890123', 'F', 'julia.pereira@example.com', 5, 3),
+    (6, 'Pedro Costa', '67890123456', '2005-06-05', '678901234', 'M', 'pedro.costa@example.com', 6, 3),
+    (7, 'Larissa Oliveira', '78901234567', '2006-07-10', '789012345', 'F', 'larissa.oliveira@example.com', 7, 3),
+    (8, 'Matheus Souza', '89012345678', '2007-08-15', '890123456', 'M', 'matheus.souza@example.com', 8, 3);
+	select * from aluno
+-- Inserir alunos com contrato de aluno comercial 
+INSERT INTO aluno (id_aluno, nome, cpf, data_nascimento, telefone, genero, email, id_endereco, id_contrato) VALUES
+    (9, 'Amanda Silva', '90123456789', '2008-09-20', '901234567', 'F', 'amanda.silva@example.com', 9, 4),
+    (10, 'Lucas Oliveira', '01234567890', '2009-10-25', '012345678', 'M', 'lucas.oliveira@example.com', 10, 4),
+    (11, 'Mariana Santos', '12345678902', '2010-11-30', '123456789', 'F', 'mariana.santos@example.com', 1, 4),
+    (12, 'Gabriel Lima', '23456789013', '2011-12-05', '234567890', 'M', 'gabriel.lima@example.com', 2, 4),
+    (13, 'Bianca Pereira', '34567890124', '2012-01-10', '345678901', 'F', 'bianca.pereira@example.com', 3, 4),
+    (14, 'Felipe Costa', '45678901235', '2013-02-15', '456789012', 'M', 'felipe.costa@example.com', 4, 4),
+    (15, 'Laura Oliveira', '56789012346', '2014-03-20', '567890123', 'F', 'laura.oliveira@example.com', 5, 4),
+    (16, 'Rafael Souza', '67890123457', '2015-04-25', '678901234', 'M', 'rafael.souza@example.com', 6, 4);
+
+-- Inserir alunos com contrato de aprendiz 
+INSERT INTO aluno (id_aluno, nome, cpf, data_nascimento, telefone, genero, email, id_endereco, id_contrato) VALUES
+    (17, 'Isabela Silva', '78901234587', '2016-05-30', '789012345', 'F', 'isabela.silva@example.com', 7, 5),
+    (18, 'Guilherme Oliveira', '89012345688', '2017-06-05', '890123456', 'M', 'guilherme.oliveira@example.com', 8, 5),
+    (19, 'Lorena Santos', '90123456589', '2018-07-10', '901234567', 'F', 'lorena.santos@example.com', 9, 5),
+    (20, 'Thiago Lima', '01234567800', '2019-08-15', '012345678', 'M', 'thiago.lima@example.com', 10, 5);
+	select * from aluno
+
+
+
+
 
