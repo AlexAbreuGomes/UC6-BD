@@ -215,6 +215,10 @@ insert into emprestimo (data_emprestimo, prazo, id_usuario, numero_registro ) va
 	('2023-01-05', 10, 3, 1),
 	('2023-02-02', 10, 2, 4),
 	('2022-01-01', 10, 4, 5);
+insert into emprestimo (data_emprestimo, prazo, id_usuario, numero_registro ) values 
+	('2024-05-02', 10, 1, 5);
+insert into emprestimo (data_emprestimo, prazo, id_usuario, numero_registro ) values 
+	('2024-05-02', 10, 1, 8);
 
 select * from emprestimo;
 
@@ -222,3 +226,146 @@ SELECT usuario.nome
 FROM usuario
 JOIN emprestimo ON emprestimo.id_usuario = usuario.id_usuario
 WHERE YEAR(emprestimo.data_emprestimo) = 2023 AND MONTH(emprestimo.data_emprestimo) = 1;
+
+				/* questao 07
+7. Retornar os títulos dos livros de tecnologia que têm 'Python' no título.*/
+
+SELECT LIVRO.titulo 
+ FROM LIVRO 
+ join TECNOLOGIA on TECNOLOGIA.numero_registro = LIVRO.numero_registro
+ WHERE titulo LIKE '%python%';
+
+				/*questao 08
+ 8. Listar os títulos dos periódicos disponíveis na biblioteca com CNPJ '12345678000123'.*/
+
+select PERIODICO.titulo
+from PERIODICO
+join PERIODICO_BIBLIOTECA on PERIODICO_BIBLIOTECA.numero_registro = PERIODICO.numero_registro
+where cnpj = 12345678000123
+
+select * from PERIODICO
+
+
+		/*questao 09
+9. Mostrar os nomes dos funcionários que não são técnicos de TI.*/
+
+/*Podemos combinar o operador In com o operador lógico NOT SQL para determinar
+se um valor NÃO corresponde com nenhum valor na lista ou subconsulta realizada:
+https://www.bosontreinamentos.com.br/mysql/bancos-de-dados-operadores-in-e-not-in-no-mysql/ link*/
+
+SELECT FUNCIONARIO.nome 
+FROM funcionario
+WHERE matricula NOT IN (SELECT matricula FROM TECNICO_TI);
+
+select FUNCIONARIO.matricula, FUNCIONARIO.nome
+from FUNCIONARIO
+join TECNICO_TI on TECNICO_TI.matricula = FUNCIONARIO.matricula;
+
+
+				/*questao 10
+10.Exibir o título e o autor dos livros emprestados pelo usuário com ID '1'.*/
+
+
+SELECT LIVRO.titulo, LIVRO.autor
+FROM emprestimo
+JOIN LIVRO ON emprestimo.numero_registro = LIVRO.numero_registro
+WHERE emprestimo.id_usuario = 1;
+
+select * from emprestimo;
+select * from LIVRO;
+
+
+				/*questao 11
+11.Listar todas as palestras que custaram mais de R$ 100,00.*/
+
+select * from PALESTRA;
+
+select EVENTO.custo, EVENTO.tipo
+from EVENTO
+join PALESTRA on PALESTRA.id_evento = EVENTO.id_evento
+WHERE custo > 100.00
+
+				/* questao 12
+12.Retornar os títulos dos livros de ciência que foram publicados após 2010.*/
+
+select LIVRO.titulo, LIVRO.ano_publicacao
+from LIVRO
+join CIENCIA on CIENCIA.numero_registro = livro.numero_registro
+WHERE YEAR (ano_publicacao) > 2010;
+
+				/* questao 13
+13.Exibir os nomes dos atendentes que têm 'Maria' no nome.*/
+-- o resultado foi errado pois apareceu nome semelhante descobrir como filtrar 
+
+SELECT FUNCIONARIO.nome 
+ FROM FUNCIONARIO
+ join ATENDENTE on ATENDENTE.matricula = FUNCIONARIO.matricula
+ WHERE ATENDENTE.nome LIKE '%Maria%';
+
+select * from FUNCIONARIO
+
+				/*questao 14
+14.Mostrar os títulos dos livros que foram emprestados mais de 5 vezes.*/
+
+
+				/*questao 15
+15.Listar os nomes dos usuários que emprestaram livros de tecnologia.*/
+
+SELECT usuario.nome
+FROM usuario
+join TECNOLOGIA on TECNOLOGIA.numero_registro = usuario.id_usuario
+
+ select emprestimo.id_usuario
+ from emprestimo
+ join TECNOLOGIA on TECNOLOGIA.numero_registro = emprestimo.id_emprestimo
+ 
+ select * from emprestimo
+
+ select LIVRO.titulo, LIVRO.numero_registro
+ from LIVRO
+ join TECNOLOGIA on TECNOLOGIA.numero_registro = LIVRO.numero_registro
+
+				/*questao 16
+ 16.Exibir os eventos que ocorreram na biblioteca '67890123000178' em 2022.*/
+
+ select * from BIBLIOTECA
+
+ select * from EVENTO
+
+				/* questao 17
+ 17.Retornar os títulos dos periódicos que têm 'Saúde' no título.*/
+
+ SELECT PERIODICO.titulo
+ FROM PERIODICO
+ WHERE PERIODICO.titulo LIKE '%Saúde%';
+
+ select * from PERIODICO
+ where PERIODICO.titulo like '%Saúde%'
+
+				/* questao 18
+ 18.Listar os nomes dos estagiários que começam com a letra 'L'.*/
+
+ SELECT ESTAGIARIO.nome
+ FROM ESTAGIARIO
+ WHERE ESTAGIARIO.nome LIKE 'L%';
+
+ select * FROM ESTAGIARIO
+ WHERE ESTAGIARIO.nome LIKE 'L%';
+
+				 /*questao 19
+19.Mostrar os títulos dos livros de sociologia que foram publicados nos anos 90.*/
+
+select LIVRO.titulo, LIVRO.ano_publicacao
+from LIVRO
+join SOCIOLOGIA on SOCIOLOGIA.numero_registro = livro.numero_registro
+WHERE YEAR (ano_publicacao) > 1989 and (ano_publicacao) < 2000;
+
+				/*questao 20
+20.Exibir os títulos dos livros e os nomes dos autores dos livros emprestados em fevereiro de 2023.*/
+
+SELECT LIVRO.titulo, LIVRO.autor
+FROM LIVRO
+JOIN emprestimo ON emprestimo.id_usuario = LIVRO.numero_registro
+WHERE YEAR(emprestimo.data_emprestimo) = 2023 AND MONTH(emprestimo.data_emprestimo) = 2;
+
+
