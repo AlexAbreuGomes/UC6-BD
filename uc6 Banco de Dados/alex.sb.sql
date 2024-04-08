@@ -33,6 +33,9 @@ SELECT livro.Titulo, LIVRO.numero_registro
 FROM LIVRO
 JOIN SOCIOLOGIA ON SOCIOLOGIA.numero_registro = LIVRO.numero_registro;
 
+select titulo from LIVRO
+join SOCIOLOGIA on SOCIOLOGIA.numero_registro = LIVRO.numero_registro;
+
 select * from SOCIOLOGIA;
 
 				/*questao 02
@@ -45,14 +48,12 @@ join BIBLIOTECARIO on BIBLIOTECARIO.matricula = FUNCIONARIO.matricula;
 				/*questao 03
 3. Exibir os títulos dos livros publicados antes de 2000.*/
 
-SELECT Livro.titulo, LIVRO.ano_publicacao
+SELECT titulo,ano_publicacao
 from LIVRO
 WHERE ano_publicacao < 2000;
 
 				/*questao 04
 4. Mostrar o número total de livros em cada biblioteca.*/
-
-
 
 insert into LIVRO_BIBLIOTECA (cnpj, numero_registro) values
 ('01234567000112',1),
@@ -233,7 +234,7 @@ WHERE YEAR(emprestimo.data_emprestimo) = 2023 AND MONTH(emprestimo.data_empresti
 SELECT LIVRO.titulo 
  FROM LIVRO 
  join TECNOLOGIA on TECNOLOGIA.numero_registro = LIVRO.numero_registro
- WHERE titulo LIKE '%python%';
+ WHERE titulo LIKE 'python%';
 
 				/*questao 08
  8. Listar os títulos dos periódicos disponíveis na biblioteca com CNPJ '12345678000123'.*/
@@ -260,6 +261,12 @@ WHERE matricula NOT IN (SELECT matricula FROM TECNICO_TI);
 select FUNCIONARIO.matricula, FUNCIONARIO.nome
 from FUNCIONARIO
 join TECNICO_TI on TECNICO_TI.matricula = FUNCIONARIO.matricula;
+
+-- mostrar todos os livros exeto os de tecnologia.
+
+select *
+from LIVRO
+where numero_registro not in (select numero_registro from TECNOLOGIA)
 
 
 				/*questao 10
@@ -300,14 +307,19 @@ WHERE YEAR (ano_publicacao) > 2010;
 SELECT FUNCIONARIO.nome 
  FROM FUNCIONARIO
  join ATENDENTE on ATENDENTE.matricula = FUNCIONARIO.matricula
- WHERE ATENDENTE.nome LIKE '%Maria%';
+ WHERE ATENDENTE.nome LIKE '% Maria %'; -- espacar para delimitar o nome especifico ex se deixar sem espaços vai buscar nomes semelhantes
 
 select * from FUNCIONARIO
 
 				/*questao 14
 14.Mostrar os títulos dos livros que foram emprestados mais de 5 vezes.*/
 
-
+select LIVRO.titulo, count(titulo) as total_emprestimo from LIVRO
+join emprestimo on LIVRO.numero_registro = emprestimo.numero_registro
+where 
+	(select count (*) from emprestimo where LIVRO.numero_registro = emprestimo.numero_registro
+)>= 2
+group by titulo
 				/*questao 15
 15.Listar os nomes dos usuários que emprestaram livros de tecnologia.*/
 
@@ -358,7 +370,7 @@ join TECNOLOGIA on TECNOLOGIA.numero_registro = usuario.id_usuario
 select LIVRO.titulo, LIVRO.ano_publicacao
 from LIVRO
 join SOCIOLOGIA on SOCIOLOGIA.numero_registro = livro.numero_registro
-WHERE YEAR (ano_publicacao) > 1989 and (ano_publicacao) < 2000;
+WHERE ano_publicacao >= 1989 and ano_publicacao < 2000;
 
 				/*questao 20
 20.Exibir os títulos dos livros e os nomes dos autores dos livros emprestados em fevereiro de 2023.*/
@@ -368,4 +380,22 @@ FROM LIVRO
 JOIN emprestimo ON emprestimo.id_usuario = LIVRO.numero_registro
 WHERE YEAR(emprestimo.data_emprestimo) = 2023 AND MONTH(emprestimo.data_emprestimo) = 2;
 
+CREATE VIEW vmlivro
+AS
+SELECT * FROM LIVRO;
+
+select * from vmlivro;
+
+select * from LIVRO;
+
+
+select ROUND(avg(custo),2) as media_preco
+from EVENTO
+join WORKSHOP on EVENTO.id_evento = WORKSHOP.id_evento
+
+
+select ROUND(sum(custo),2) as soma_preco
+from EVENTO
+join PALESTRA on PALESTRA.id_evento = EVENTO.id_evento
+where year (data) >= 2022;
 
