@@ -3,11 +3,9 @@ create database senac
 use senac
 
 create table endereco(
-<<<<<<< HEAD
-	id_endereco int primary key,				-- int auto-incrementado (chave primária)
-=======
+
+
 	id_endereco int primary key IDENTITY(1,1),				-- int auto-incrementado (chave primária)
->>>>>>> 4bf3e8e18f16ad1735b4da4704912392a91a1cc0
 	logradouro nvarchar(255) NOT NULL,			-- nome da rua, avenida, etc.
 	numero nvarchar(10) NOT NULL,				-- número do endereço
 	complemento nvarchar(100) NULL,				-- complemento do endereço (apartamento, bloco, etc.)
@@ -250,6 +248,24 @@ INSERT INTO endereco (id_endereco, logradouro, numero, complemento, bairro, cida
 (9, 'Rua José de Alencar', '333', 'Sobrado', 'Petrópolis', 'Natal', 'RN', '59019000'),
 (10, 'Estrada da Redinha', '4444', 'Sítio Boa Vista', 'Redinha', 'Natal', 'RN', '59020000');
 
+INSERT INTO endereco (id_endereco, logradouro, numero, complemento, bairro, cidade, uf, cep) VALUES
+(11, 'Rua dos Coqueiros', '567', 'Apto. 102', 'Ponta Negra', 'Natal', 'RN', '59025000'),
+(12, 'Avenida dos Flamboyants', '888', 'Casa', 'Capim Macio', 'Natal', 'RN', '59026000'),
+(13, 'Rua das Mangueiras', '1313', 'Bloco C', 'Cidade Verde', 'Parnamirim', 'RN', '59143000'),
+(14, 'Travessa das Acácias', '999', 'Fundos', 'Lagoa Seca', 'Natal', 'RN', '59027000'),
+(15, 'Beco dos Cajueiros', '25', 'Qd. 05', 'Pajuçara', 'Natal', 'RN', '59028000'),
+(16, 'Alameda das Violetas', '321', 'Casa B', 'Emaús', 'Parnamirim', 'RN', '59144000'),
+(17, 'Rua dos Antúrios', '777', 'Loja 2', 'Neópolis', 'Natal', 'RN', '59029000'),
+(18, 'Avenida das Palmeiras', '444', 'Cj. 20', 'Pitimbu', 'Natal', 'RN', '59030000'),
+(19, 'Rua José da Silva', '555', 'Sobrado', 'Candelária', 'Natal', 'RN', '59031000'),
+(20, 'Estrada do Cajueiro', '6666', 'Sítio Bela Vista', 'Cidade Nova', 'Natal', 'RN', '59032000'),
+(21, 'Rua das Orquídeas', '777', 'Apto. 501', 'Tirol', 'Natal', 'RN', '59033000'),
+(22, 'Avenida dos Lírios', '1111', 'Casa', 'Parque das Dunas', 'Natal', 'RN', '59034000'),
+(23, 'Travessa das Rosas', '222', 'Bloco D', 'Lagoa Azul', 'Parnamirim', 'RN', '59145000'),
+(24, 'Beco dos Ipês', '10', 'Qd. 08', 'Nova Descoberta', 'Natal', 'RN', '59035000'),
+(25, 'Alameda dos Cravos', '888', 'Loja 3', 'Potengi', 'Natal', 'RN', '59036000');
+
+
 select * from endereco
 
 INSERT INTO instituicao (id_instituicao,nome, cnpj, id_endereco, telefone, email) VALUES
@@ -292,6 +308,18 @@ UPDATE funcionario
 SET id_contrato = 2
 WHERE id_contrato = 3;
 
+INSERT INTO funcionario (id_funcionario, nome, cpf, data_nascimento, cargo, salario, data_admissao, id_endereco, id_contrato) VALUES
+    (9, 'Laura Oliveira', '98765478901', '1986-02-28', 'Instrutor', 5300.00, '2022-07-20', 9, 1),
+    (10, 'Mariana Silva', '45612398701', '1991-06-12', 'Instrutor', 5200.00, '2022-08-10', 10, 1),
+    (11, 'Rafael Santos', '65478932101', '1989-09-03', 'Instrutor', 5100.00, '2022-09-05', 11, 1),
+    (12, 'Gabriel Oliveira', '12378945601', '1987-11-15', 'Instrutor', 5400.00, '2022-10-15', 12, 1),
+    (13, 'Carolina Lima', '32198765401', '1993-04-22', 'Instrutor', 5000.00, '2022-11-20', 13, 1),
+    (14, 'Lucas Souza', '98732165401', '1984-08-07', 'Instrutor', 4800.00, '2022-12-01', 14, 1),
+    (15, 'Juliana Santos', '65498732101', '1990-12-10', 'Instrutor', 4900.00, '2023-01-10', 15, 1);
+
+
+
+
 select * from funcionario;
 
 
@@ -308,6 +336,16 @@ INSERT INTO contrato_funcionario (id_contrato_funcionario, id_contrato, id_funci
 UPDATE contrato_funcionario
 SET id_contrato = 2
 WHERE id_contrato = 3;
+
+
+INSERT INTO contrato_funcionario (id_contrato_funcionario, id_contrato, id_funcionario, cargo, salario, data_admissao) VALUES
+    (9, 1, 9, 'Instrutor', 5300.00, '2022-07-20'),
+    (10, 1, 10, 'Instrutor', 5200.00, '2022-08-10'),
+    (11, 1, 11, 'Instrutor', 5100.00, '2022-09-05'),
+    (12, 1, 12, 'Instrutor', 5400.00, '2022-10-15'),
+    (13, 1, 13, 'Instrutor', 5000.00, '2022-11-20'),
+    (14, 1, 14, 'Instrutor', 4800.00, '2022-12-01'),
+    (15, 1, 15, 'Instrutor', 4900.00, '2023-01-10');
 
 select * from contrato_funcionario;
 
@@ -342,7 +380,20 @@ INSERT INTO aluno (id_aluno, nome, cpf, data_nascimento, telefone, genero, email
 	select * from aluno
 
 
+INSERT INTO professor (id_professor, nome, especializaçao, id_funcionario, id_instituicao) VALUES 
+    (1, 'João Silva', 'Desenvolvimento Web', 101, 201),
+    (2, 'Maria Santos', 'Marketing Digital', 102, 201),
+    (3, 'Carlos Oliveira', 'Design Gráfico', 103, 201),
+    (4, 'Ana Souza', 'Programação Python', 104, 201),
+    (5, 'Fernanda Lima', 'Gestão de Projetos', 105, 201),
+    (6, 'Rafaela Costa', 'Administração de Empresas', 106, 201),
+    (7, 'Pedro Almeida', 'Fotografia', 107, 201),
+    (8, 'Mariana Ferreira', 'Marketing de Conteúdo', 108, 201),
+    (9, 'Lucas Santos', 'Análise de Dados', 109, 201),
+    (10, 'Camila Oliveira', 'Recursos Humanos', 110, 201),
+    (11, 'Marcos Silva', 'Desenvolvimento Mobile', 111, 201),
+    (12, 'Amanda Pereira', 'Design de Interiores', 112, 201),
+    (13, 'Rodrigo Nunes', 'Gestão Financeira', 113, 201),
+    (14, 'Laura Costa', 'Redes Sociais', 114, 201),
+    (15, 'Daniel Oliveira', 'Engenharia de Software', 115, 201);
 
-
-
->>>>>>> 4bf3e8e18f16ad1735b4da4704912392a91a1cc0
