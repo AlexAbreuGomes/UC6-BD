@@ -49,7 +49,7 @@ use sistema_biblioteca
 		where titulo like '%'+@titulo+'%'
 	end;
 
-	exec sp_buscar_livro_concatenado @titulo = 'de'
+	exec sp_buscar_livro_concatenado @titulo = 'p'
 
 
 
@@ -65,7 +65,7 @@ use sistema_biblioteca
 	exec sp_buscar_livro_ano @ano = '2016'
 	
 	
-	create procedure sp_buscar_livro_tecnologia_ano
+	alter procedure sp_buscar_livro_tecnologia_ano
 		@ano nvarchar(30)
 	as
 	begin
@@ -102,4 +102,4 @@ use sistema_biblioteca
 		insert into EDUCADOR (matricula, nome) values (@matricula, @nome)
 	end;
 	
-	exec sp_inserir_funcionario_educador @matricula = 'ED006', @nome = 'Alex Gomes';
+	exec sp_inserir_funcionario_educador @matricula = 'ED0010', @nome = 'Alex Gomes';
