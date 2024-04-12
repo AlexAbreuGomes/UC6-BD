@@ -63,16 +63,16 @@ create procedure sp_inserir_funcionario_educador
 /*2. Criar uma procedure para listar os livros de uma categoria específica, recebendo o 
 nome da categoria como parâmetro.*/
 
-create procedure sp_buscar_livro_tecnologia
+alter procedure sp_buscar_livro_tecnologia
 	@tecnologia nvarchar(100)
 	as
 	begin
 		SELECT * FROM LIVRO
 		JOIN TECNOLOGIA ON TECNOLOGIA.numero_registro = LIVRO.numero_registro
-		where titulo like '%'+@tecnologia+'%' 
+		--where titulo like '%'+@tecnologia+'%' 
 	end;
 
-	exec sp_buscar_livro_tecnologia  @tecnologia = 'desenvolvimento'
+	exec sp_buscar_livro_tecnologia  @tecnologia = 'redes'
 
 	
 /*3. Criar uma procedure para obter os nomes dos funcionários de um determinado cargo recebendo o cargo como parametro*/
@@ -87,7 +87,7 @@ create procedure sp_buscar_livro_tecnologia
 		where funcionario.nome like'%'+@ti+'%'
 	end;
 
-	exec sp_funcionario_ti @ti = 'a';
+	exec sp_funcionario_ti @ti = '';
 
 	select * from TECNICO_TI 
 
@@ -95,7 +95,7 @@ create procedure sp_buscar_livro_tecnologia
 específico, recebendo o ano como parâmetro.*/
 
 ALTER procedure sp_buscar_livro
-		@ano nvarchar(30)
+	@ano nvarchar(30)
 	as
 	begin
 		SELECT Titulo, ano_publicacao
@@ -119,7 +119,7 @@ create procedure sp_contar_livro
 		GROUP BY cnpj
 	end;
 
-	exec sp_contar_livro @total = '01234567000112'
+	exec sp_contar_livro @total = '23456789000134'
 	select * from LIVRO_BIBLIOTECA
 
 /*6. Criar uma procedure para listar os eventos de um tipo específico que aconteceram 
@@ -128,11 +128,11 @@ após um ano determinado, recebendo o tipo de evento e o ano como parâmetros.*/
 alter procedure sp_listar_evento
 	@evento nvarchar (30),
 	@ano nvarchar (30)
-as
+	as
 	begin
 		SELECT tipo, data
 		FROM EVENTO
-		where tipo = @evento and  YEAR (DATA) = @ano
+		where tipo = @evento and  YEAR (DATA) > @ano
 	end;
 
 	exec sp_listar_evento @evento = 'palestra' , @ano = '2020'
@@ -144,18 +144,19 @@ as
 de livros em um mês e ano específicos, recebendo o mês e o ano como parâmetros.*/
 
 create procedure sp_usuario_emprestimo
-		@mes int,
-		@ano int
-as
-begin
-	SELECT nome
-	FROM usuario
-	JOIN emprestimo ON emprestimo.id_usuario = usuario.id_usuario
-	WHERE YEAR(emprestimo.data_emprestimo) = @ano AND MONTH(emprestimo.data_emprestimo) = @mes
-end;
+	@mes int,
+	@ano int
+	as
+	begin
+		SELECT nome
+		FROM usuario
+		JOIN emprestimo ON emprestimo.id_usuario = usuario.id_usuario
+		WHERE YEAR(emprestimo.data_emprestimo) = @ano AND MONTH(emprestimo.data_emprestimo) = @mes
+	end;
 
-exec sp_usuario_emprestimo @mes = 1 , @ano = 2022;
+	exec sp_usuario_emprestimo @mes = 1 , @ano = 2022;
 
+select * from usuario
 select * from emprestimo
 
 /*8. Criar uma procedure para encontrar os títulos dos livros de uma categoria específica 
@@ -181,12 +182,14 @@ alter procedure sp_listar_livro
 	as
 	begin
 		SELECT titulo
-		FROM LIVRO
-		JOIN LIVRO_BIBLIOTECA ON LIVRO_BIBLIOTECA.numero_registro = LIVRO.numero_registro
+		FROM PERIODICO
+		JOIN PERIODICO_BIBLIOTECA ON PERIODICO_BIBLIOTECA.numero_registro = PERIODICO.numero_registro
 		where cnpj = @cnpj
 	end;
 
 	exec sp_listar_livro @cnpj = '12345678000123'
+
+	select * from PERIODICO
 
 /*10.Criar uma procedure para exibir o título e o autor dos livros emprestados por um 
 usuário específico, recebendo o ID do usuário como parâmetro.*/
@@ -238,3 +241,52 @@ BEGIN
     WHERE LIVRO.titulo LIKE '%' + @palavra_chave + '%';
 END;
 --errado revisar depois 
+
+
+
+--criando funçoes 
+
+declare @cnpj nvarchar (14)
+
+create function fn_contar_livros(@cnpj nvarchar (14))
+returns int 
+as
+begin
+	declare @total_livros int;
+	SELECT @total_livros = count (*) from LIVRO_BIBLIOTECA
+	where cnpj =@cnpj;
+	return @total_livros 
+end;
+
+select dbo.fn_contar_livros('12345678000123') as livros
+
+
+
+alter function fn_total_funcionario()
+returns int 
+as
+begin
+	declare @total_funcionario int;
+	SELECT @total_funcionario = count (FUNCIONARIO.matricula) from FUNCIONARIO
+	return @total_funcionario
+end;
+
+select dbo.fn_total_funcionario() as total_funcionario
+
+
+create function fn_total_palestra(@palestra nvarchar(50))
+returns int 
+as
+begin
+	declare @total_palestra int;
+	SELECT @total_palestra = count (*) from EVENTO
+	where tipo = @palestra;
+	return @total_palestra 
+end;
+
+select dbo.fn_total_palestra ('palestra') as palestra
+
+
+SELECT tipo, data
+		FROM EVENTO
+		where tipo = @evento and  YEAR (DATA) > @ano
